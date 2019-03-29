@@ -23,7 +23,8 @@ $(document).ready(function () {
     }
 
     $("#buttons").on("click", function () {
-        query = $(this).attr("topics-button");
+       var query = $(this).attr("topics");
+       console.log(query)
 
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
             query + "&api_key=Je8KbWRnNvJBwpqWK3LwU7ddFVvZ8pHy";
@@ -42,7 +43,7 @@ $(document).ready(function () {
 
                 for (var i = 0; i < results.length; i++) {
 
-                    var gifDiv = $("<div>");
+                    var gifDiv =  $("<div>");
 
                     var p = $("<p>").text("Rating: " + results[i].rating);
 
@@ -59,6 +60,16 @@ $(document).ready(function () {
 
 
                 }
+
+                $("#add-gif").on("click", function(event) {
+                    
+                    event.preventDefault();
+                    var gif = $("#gif-input").val().trim();
+                    topics.push(gif);
+        
+                    renderButtons();
+                    console.log(gif)
+                  });
 
                 $("topics").on("click", function () {
                     var state = $(this).attr("data-state");
