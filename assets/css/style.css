@@ -1,0 +1,18 @@
+body {
+    background-color: rgb(50, 18, 80);
+    background-image: url("../images/star.jpg");
+}
+
+#buttons{
+
+    margin: 10px;
+
+}
+
+.topics-button-color {
+ 
+    background-color: rgb(94, 27, 94);
+    color: white;
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-size: 20px;
+}
