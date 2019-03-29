@@ -16,3 +16,14 @@ body {
     font-family: 'ZCOOL XiaoWei', serif;
     font-size: 20px;
 }
+
+img {
+ 
+    float: left;
+    margin: 20px;
+}
+
+p {
+    color: white;
+    font-family: 'ZCOOL XiaoWei', serif;
+}
