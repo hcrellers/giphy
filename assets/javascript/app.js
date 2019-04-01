@@ -1,33 +1,52 @@
 $(document).ready(function () {
 
     var topics = [
-        "crying",
-        "dancing",
-        "eating",
-        "laughing",
-        "smiling",
-        "waiting",
-        "cooking",
-        "running",
-        "pouting",
-        "flirting",
+        "cosmic",
+        "stars",
+        "moon",
+        "mercury",
+        "astrology",
+        "astronaut",
+        "retrograde",
+        "comet",
+        "rocket",
+        "space",
     ]
+    function displayGifs() {
+        $("#buttons").empty()
+        for (var i = 0; i < topics.length; i++) {
+            var topicBtn = $("<button type='button' class='btn'>");
+            topicBtn.addClass("topics-button topics topics-button-color");
+            topicBtn.attr("data-topics", topics[i]);
+            topicBtn.text(topics[i]);
+            $("#buttons").append(topicBtn);
 
-    for (var i = 0; i < topics.length; i++) {
-        var topicBtn = $("<button>");
-        topicBtn.addClass("topics-button topics topics-button-color");
-        topicBtn.attr("data-topics", topics[i]);
-        topicBtn.text(topics[i]);
-        $("#buttons").append(topicBtn);
-
+        }
     }
+    displayGifs();
 
-    $("#buttons").on("click", function () {
-       var query = $(this).attr("topics");
-       console.log(query)
+    $("#add-gif").on("click", function (event) {
+        event.preventDefault();
+        var gif = $("#gif-input").val().trim();
+        topics.push(gif);
+        console.log(gif);
+        $("#gif-input").val('');
+        displayGifs();
+
+
+
+        console.log(gif)
+        console.log(event)
+    });
+
+    $(".topics-button").on("click", function () {
+        var query = $(this).attr("data-topics");
+        console.log(query)
+
+
 
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            query + "&api_key=Je8KbWRnNvJBwpqWK3LwU7ddFVvZ8pHy";
+            query + "&api_key=Je8KbWRnNvJBwpqWK3LwU7ddFVvZ8pHy&limit=10";
 
 
         $.ajax({
@@ -43,35 +62,40 @@ $(document).ready(function () {
 
                 for (var i = 0; i < results.length; i++) {
 
-                    var gifDiv =  $("<div>");
+                    if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
 
-                    var p = $("<p>").text("Rating: " + results[i].rating);
+                        var gifDiv = $("<div>");
 
-                    var topicImage = $("<img>");
+                        var rating = results[i].rating;
 
-                    topicImage.attr("src", results[i].images.fixed_height.url);
-                    topicBtn.attr("data-state", "still");
-                    topicBtn.attr("data-animate", results[i].images.fixed_height.url)
+                        var gifAnimate = results[i].images.fixed_height.url;
+                        var gifStill = results[i].images.fixed_height_still.url;
 
-                    gifDiv.append(p);
-                    gifDiv.append(topicImage);
+                        var p = $("<p>").text("Rating: " + rating);
 
-                    $("#gifs-appear-here").prepend(gifDiv);
+                        var topicImage = $("<img>");
 
+                     
+
+                        topicImage.attr("src", gifStill);
+                        topicImage.addClass("astroGifs")
+                        topicImage.attr("data-state", "still");
+                        topicImage.attr("data-still", gifStill)
+                        topicImage.attr("data-animate", gifAnimate)
+                       // gifDiv.append(p);
+                        gifDiv.append(topicImage);
+                        $("#gifs-appear-here").prepend(gifDiv);
+
+                    }
 
                 }
 
-                $("#add-gif").on("click", function(event) {
-                    
-                    event.preventDefault();
-                    var gif = $("#gif-input").val().trim();
-                    topics.push(gif);
-        
-                    renderButtons();
-                    console.log(gif)
-                  });
+               
 
-                $("topics").on("click", function () {
+                $(document).on("click", ".astroGifs", pauseGifs);
+
+                function pauseGifs() {
+
                     var state = $(this).attr("data-state");
                     if (state === "still") {
                         $(this).attr("src", $(this).attr("data-animate"));
@@ -80,10 +104,13 @@ $(document).ready(function () {
                         $(this).attr("src", $(this).attr("data-still"));
                         $(this).attr("data-state", "still");
                     }
-                });
+
+
+
+
+                };
+
+
             });
-
-
     });
 });
-
