@@ -39,7 +39,9 @@ $(document).ready(function () {
         console.log(event)
     });
 
-    $(".topics-button").on("click", function () {
+    // $(".topics-button").on("click", function () {
+    $(document).on("click",".topics-button", function () {
+
         var query = $(this).attr("data-topics");
         console.log(query)
 
@@ -71,6 +73,8 @@ $(document).ready(function () {
                         var gifAnimate = results[i].images.fixed_height.url;
                         var gifStill = results[i].images.fixed_height_still.url;
 
+                    //    var rDiv = $("<div>");
+
                         var p = $("<p>").text("Rating: " + rating);
 
                         var topicImage = $("<img>");
@@ -82,7 +86,8 @@ $(document).ready(function () {
                         topicImage.attr("data-state", "still");
                         topicImage.attr("data-still", gifStill)
                         topicImage.attr("data-animate", gifAnimate)
-                       // gifDiv.append(p);
+
+                      //  gifDiv.append(p);
                         gifDiv.append(topicImage);
                         $("#gifs-appear-here").prepend(gifDiv);
 
